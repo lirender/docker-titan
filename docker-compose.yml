@@ -5,9 +5,11 @@ titan:
 #    - cassandra
   ports:
     - "8182:8182"
+  volumes:
+    - "/usr/share/berkeleydb:/usr/share/berkeleydb"    
   restart: always
 
-# User BerkeleyDB instead for storage which already is setup in default titan image
+# Use BerkeleyDB instead for storage which already is setup in default titan image
 #cassandra:
 #  image: cassandra:2.0
 #  volumes:
