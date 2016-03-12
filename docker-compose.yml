@@ -2,16 +2,17 @@ titan:
   build: titan
   links:
     - elasticsearch
-    - cassandra
+#    - cassandra
   ports:
     - "8182:8182"
   restart: always
 
-cassandra:
-  image: cassandra:2.0
-  volumes:
-    - "/var/lib/cassandra/data:/var/lib/cassandra/data"
-  restart: always
+# User BerkeleyDB instead for storage which already is setup in default titan image
+#cassandra:
+#  image: cassandra:2.0
+#  volumes:
+#    - "/var/lib/cassandra/data:/var/lib/cassandra/data"
+#  restart: always
 
 elasticsearch:
   image: elasticsearch:1.5
