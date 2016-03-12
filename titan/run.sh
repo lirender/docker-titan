@@ -31,7 +31,7 @@ wait_for_startup() {
 }
 
 ELASTICSEARCH_STARTUP_TIMEOUT_S=60
-CASSANDRA_STARTUP_TIMEOUT_S=60
+#CASSANDRA_STARTUP_TIMEOUT_S=60
 
 wait_for_startup Elasticsearch \
 	$ELASTICSEARCH_PORT_9200_TCP_ADDR \
@@ -40,16 +40,16 @@ wait_for_startup Elasticsearch \
    return 1
 }
 
-wait_for_startup Cassandra \
-	$CASSANDRA_PORT_9160_TCP_ADDR \
-	$CASSANDRA_PORT_9160_TCP_PORT \
-	$CASSANDRA_STARTUP_TIMEOUT_S || {
-	return 1
-}
+#wait_for_startup Cassandra \
+#	$CASSANDRA_PORT_9160_TCP_ADDR \
+#	$CASSANDRA_PORT_9160_TCP_PORT \
+#	$CASSANDRA_STARTUP_TIMEOUT_S || {
+#	return 1
+#}
 
 # use cassandra backed db instead of berkeleyje
-sed -i "s/host: localhost/host: 0.0.0.0/g" conf/gremlin-server/gremlin-server.yaml
-sed -i "s/titan-berkeleyje-server.properties/titan-cassandra-es-server.properties/g" conf/gremlin-server/gremlin-server.yaml
+#sed -i "s/host: localhost/host: 0.0.0.0/g" conf/gremlin-server/gremlin-server.yaml
+#sed -i "s/titan-berkeleyje-server.properties/titan-cassandra-es-server.properties/g" conf/gremlin-server/gremlin-server.yaml
 
 # Want to have JSON / Http access to your titan-server? then enable the following two lines
 #sed -i "s/channelizer: org.apache.tinkerpop.gremlin.server.channel.WebSocketChannelizer/channelizer: org.apache.tinkerpop.gremlin.server.channel.HttpChannelizer/g" conf/gremlin-server/gremlin-server.yaml
@@ -63,12 +63,13 @@ sed -i "s/GraphSONMessageSerializerV1d0.*/GraphSONMessageSerializerV1d0 \}/g" co
 
 
 # create the backing file
-cp conf/titan-cassandra-es.properties conf/gremlin-server/titan-cassandra-es-server.properties
-sed -i "s/storage.backend=cassandrathrift/storage.backend=cassandra/g" conf/gremlin-server/titan-cassandra-es-server.properties
-sed -i "s/storage.hostname=127.0.0.1/storage.hostname=$CASSANDRA_PORT_9160_TCP_ADDR/g" conf/gremlin-server/titan-cassandra-es-server.properties
-sed -i "s/client-only=true/client-only=false/g" conf/gremlin-server/titan-cassandra-es-server.properties
-sed -i "s/index.search.hostname=127.0.0.1/index.search.hostname=$ELASTICSEARCH_PORT_9200_TCP_ADDR/g" conf/gremlin-server/titan-cassandra-es-server.properties
-cat <<EOF >> conf/gremlin-server/titan-cassandra-es-server.properties
+#cp conf/titan-cassandra-es.properties conf/gremlin-server/titan-cassandra-es-server.properties
+#sed -i "s/storage.backend=cassandrathrift/storage.backend=cassandra/g" conf/gremlin-server/titan-cassandra-es-server.properties
+#sed -i "s/storage.hostname=127.0.0.1/storage.hostname=$CASSANDRA_PORT_9160_TCP_ADDR/g" conf/gremlin-server/titan-cassandra-es-server.properties
+#sed -i "s/client-only=true/client-only=false/g" conf/gremlin-server/titan-cassandra-es-server.properties
+#sed -i "s/index.search.hostname=127.0.0.1/index.search.hostname=$ELASTICSEARCH_PORT_9200_TCP_ADDR/g" conf/gremlin-server/titan-cassandra-es-server.properties
+#cat <<EOF >> conf/gremlin-server/titan-cassandra-es-server.properties
+
 # Instead of individually adjusting the field mapping for every key added 
 # to a mixed index, one can instruct Titan to always set the field name in 
 # the external index to be identical to the property key name. 
